@@ -40,11 +40,11 @@
 				</c:if>
 			</table>
 			<c:if test="${b.owner == user.email}">
-				<a href="/Test04/board/updateForm?no=${b.no}">modify</a>&nbsp;<a href="/Test04/board/delete?no=${b.no}">delete</a>
+				<a href="/Test04/board/updateForm.do?no=${b.no}">modify</a>&nbsp;<a href="/Test04/board/delete.do?no=${b.no}">delete</a>
 			</c:if>
 			<a href="/Test04/board/list.do">back</a>
 			<h3>reply</h3>
-				<form action="/Test04/reply/update" method="post" accept-charset="utf-8">
+				<form action="/Test04/reply/update.do" method="post" accept-charset="utf-8">
 					<table width="60%" border="1">
 						<thead>
 							<tr>
@@ -68,7 +68,7 @@
 											<td>${r.content}</td>
 											<th>${regDate}</th>
 											<c:if test="${r.owner == user.email}">
-												<th><input type="hidden" name="replyNo" value="${r.replyNo}"><input type="hidden" name="no" value="${b.no}"><input type="text" name="content"><input type="submit" value="mod" ><a href="/Test04/reply/delete?replyNo=${r.replyNo}&no=${b.no}">del</a></th>
+												<th><input type="hidden" name="replyNo" value="${r.replyNo}"><input type="hidden" name="no" value="${b.no}"><input type="text" name="content"><input type="submit" value="mod" ><a href="/Test04/reply/delete.do?replyNo=${r.replyNo}&no=${b.no}">del</a></th>
 											</c:if>
 										</tr>
 									</c:forEach>
@@ -77,7 +77,7 @@
 						</tbody>
 					</table>
 				</form>
-			<form action="/Test04/reply/write" method="post" accept-charset="utf-8">
+			<form action="/Test04/reply/write.do" method="post" accept-charset="utf-8">
 				<input type="hidden" name="no" value="${b.no}">
 				<input type="text" name="content" required> <input type="submit" value="comment">
 			</form>

@@ -16,7 +16,7 @@
 		
 		<div class="content">
 			<h1>modify</h1>
-			<form action="/Test04/board/update" accept-charset="utf-8" enctype="multipart/form-data" method="post">
+			<form action="/Test04/board/update.do" accept-charset="utf-8" enctype="multipart/form-data" method="post">
 				<input type="hidden" name="no" value="${b.no}">
 				<table width="60%" border="1">
 					<tr>

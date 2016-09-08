@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import framework.Controller;
 import reply.ReplyDAO;
 import reply.ReplyVO;
 
-@WebServlet("/reply/update")
-public class ReplyUpdateController extends HttpServlet {
+public class ReplyUpdateController  implements Controller {
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ReplyDAO rDao = new ReplyDAO();
 		int replyNo = Integer.parseInt(req.getParameter("replyNo"));
 		int no = Integer.parseInt(req.getParameter("no"));
@@ -23,7 +23,7 @@ public class ReplyUpdateController extends HttpServlet {
 		if(!content.equals(""))
 			rDao.update(new ReplyVO(replyNo, content));
 
-		resp.sendRedirect("/Test04/board/detail.do?no=" + no);
+		return "redirect:/Test04/board/detail.do?no=" + no;
 	}
 
 }

@@ -46,7 +46,7 @@
 					</c:choose>
 				</tbody>
 			</table>
-			<a href="/Test04/board/writeForm">write</a>
+			<a href="/Test04/board/writeForm.do">write</a>
 		</div>
 		
 		<div class="footer">

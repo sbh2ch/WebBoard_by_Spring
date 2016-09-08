@@ -18,13 +18,13 @@ import board.BoardDAO;
 import board.BoardVO;
 import file.FileDAO;
 import file.FileVO;
+import framework.Controller;
 import member.MemberVO;
 
-@WebServlet("/board/write")
-public class WriteController extends HttpServlet {
+public class WriteController implements Controller{
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		BoardDAO bDao = new BoardDAO();
 		FileDAO fDao = new FileDAO();
 		MemberVO user = (MemberVO) req.getSession().getAttribute("user");
@@ -47,7 +47,8 @@ public class WriteController extends HttpServlet {
 		if (newFile != null) {
 			fDao.insert(new FileVO(no, mRequest.getOriginalFileName("attachFile"), mRequest.getFilesystemName("attachFile"), filePath, (int) newFile.length()));
 		}
-
-		resp.sendRedirect("/Test04/board/detail.do?no=" + no);
+		
+		
+		return "redirect:/Test04/board/detail.do?no=" + no;
 	}
 }

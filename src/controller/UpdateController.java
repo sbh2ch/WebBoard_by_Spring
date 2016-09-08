@@ -18,23 +18,23 @@ import board.BoardDAO;
 import board.BoardVO;
 import file.FileDAO;
 import file.FileVO;
+import framework.Controller;
 
-@WebServlet("/board/update")
-public class UpdateController extends HttpServlet {
+public class UpdateController implements Controller {
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		BoardDAO bDao = new BoardDAO();
 		FileDAO fDao = new FileDAO();
 
 		String path = req.getServletContext().getRealPath("/upload");
 		String filePath = new SimpleDateFormat("\\yyyy\\MM\\dd\\").format(new Date());
-		
+
 		File dir = new File(path + filePath);
 
 		if (!dir.exists())
 			dir.mkdirs();
-		
+
 		MultipartRequest mRequest = new MultipartRequest(req, path + filePath, 1024 * 1024 * 50, "utf-8", new DefaultFileRenamePolicy());
 
 		String title = mRequest.getParameter("title");
@@ -46,12 +46,12 @@ public class UpdateController extends HttpServlet {
 		File newFile = mRequest.getFile("attachFile");
 		if (newFile != null) {
 			FileVO delFile = fDao.select(no);
-			if(delFile != null)
+			if (delFile != null)
 				fDao.delete(fDao.select(no), req.getServletContext());
-			
+
 			fDao.insert(new FileVO(no, mRequest.getOriginalFileName("attachFile"), mRequest.getFilesystemName("attachFile"), filePath, (int) newFile.length()));
 		}
 
-		resp.sendRedirect("/Test04/board/detail.do?no=" + no);
+		return "redirect:/Test04/board/detail.do?no=" + no;
 	}
 }

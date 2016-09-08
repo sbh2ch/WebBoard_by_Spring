@@ -13,7 +13,8 @@ import framework.Controller;
 import reply.ReplyDAO;
 
 public class DeleteController implements Controller {
-
+	
+	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		BoardDAO bDao = new BoardDAO();
 		FileDAO fDao = new FileDAO();

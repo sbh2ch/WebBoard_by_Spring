@@ -11,6 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import controller.DeleteController;
 import controller.DetailController;
 import controller.ListController;
+import controller.ReplyDeleteController;
+import controller.ReplyUpdateController;
+import controller.ReplyWriteController;
+import controller.UpdateController;
+import controller.UpdateFormController;
+import controller.WriteController;
+import controller.WriteFormController;
+import login.Login;
+import login.Logout;
 
 /**
  * @author son
@@ -51,6 +60,33 @@ public class DispatcherServlet extends HttpServlet {
 			break;
 		case "/board/delete.do":
 			controller = new DeleteController();
+			break;
+		case "/board/updateForm.do":
+			controller = new UpdateFormController();
+			break;
+		case "/board/update.do":
+			controller = new UpdateController();
+			break;
+		case "/board/write.do":
+			controller = new WriteController();
+			break;
+		case "/board/writeForm.do":
+			controller = new WriteFormController();
+			break;
+		case "/reply/delete.do":
+			controller = new ReplyDeleteController();
+			break;
+		case "/reply/write.do":
+			controller = new ReplyWriteController();
+			break;
+		case "/reply/update.do":
+			controller = new ReplyUpdateController();
+			break;
+		case "/login/login.do":
+			controller = new Login();
+			break;
+		case "/login/logout.do":
+			controller = new Logout();
 			break;
 		}
 

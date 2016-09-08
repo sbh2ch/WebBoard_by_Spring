@@ -8,12 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/board/writeForm")
-public class WriteFormController extends HttpServlet {
+import framework.Controller;
+
+public class WriteFormController implements Controller {
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.sendRedirect("/Test04/jsp/writeForm.jsp");
+	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		return "redirect:/Test04/jsp/writeForm.jsp";
 	}
 
 }

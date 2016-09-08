@@ -8,25 +8,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import framework.Controller;
 import member.MemberDAO;
 import member.MemberVO;
 
-@WebServlet("/login/login")
-public class Login extends HttpServlet{
+public class Login implements Controller {
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		MemberDAO mDao = new MemberDAO();
-		
+
 		String email = req.getParameter("email");
 		String pw = req.getParameter("pw");
-		
+
 		MemberVO user = mDao.selectOne(email);
-		
-		if(user != null && user.getPw().equals(pw)){
+
+		if (user != null && user.getPw().equals(pw)) {
 			req.getSession().setAttribute("user", user);
 		}
-		
-		resp.sendRedirect("/Test04/board/list.do");
+
+		return "redirect:/Test04/board/list.do";
 	}
 }

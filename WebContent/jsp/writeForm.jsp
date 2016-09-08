@@ -16,7 +16,7 @@
 
 		<div class="content">
 			<h1>write</h1>
-			<form action="/Test04/board/write" accept-charset="utf-8" method="post" enctype="multipart/form-data">
+			<form action="/Test04/board/write.do" accept-charset="utf-8" method="post" enctype="multipart/form-data">
 				<table width="60%" border="1">
 					<tr>
 						<th>title</th>
