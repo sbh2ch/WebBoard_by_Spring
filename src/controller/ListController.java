@@ -12,14 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.BoardDAO;
 import board.BoardVO;
+import framework.Controller;
 
-public class ListController{
+public class ListController implements Controller{
 	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		BoardDAO bDao = new BoardDAO();
-		
+
 		List<BoardVO> bList = bDao.selectAll();
 		req.setAttribute("bList", bList);
-		
+
 		return "/jsp/list.jsp";
 	}
 }

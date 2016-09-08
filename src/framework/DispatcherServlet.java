@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.DeleteController;
 import controller.DetailController;
 import controller.ListController;
 
@@ -39,20 +40,31 @@ public class DispatcherServlet extends HttpServlet {
 		String requestUri = req.getRequestURI().substring(req.getContextPath().length());
 		System.out.println(requestUri);
 		String view = null;
-		
+		Controller controller = null;
+
 		switch (requestUri) {
 		case "/board/list.do":
-			ListController list = new ListController();
-			view = list.execute(req, res);
+			controller = new ListController();
 			break;
 		case "/board/detail.do":
-			DetailController detail = new DetailController();
-			view = detail.execute(req, res);
+			controller = new DetailController();
+			break;
+		case "/board/delete.do":
+			controller = new DeleteController();
 			break;
 		}
-		
-		
-		RequestDispatcher rd = req.getRequestDispatcher(view);
-		rd.forward(req, res);
+
+		if (controller == null)
+			throw new ServletException("요청한 URL이 없음.");
+
+		view = controller.execute(req, res);
+
+		if (view.startsWith("redirect:")) {
+			res.sendRedirect(view.substring("redirect:".length()));
+		} else {
+			RequestDispatcher rd = req.getRequestDispatcher(view);
+			rd.forward(req, res);
+		}
+
 	}
 }

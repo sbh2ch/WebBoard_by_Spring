@@ -11,11 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.BoardDAO;
 import file.FileDAO;
+import framework.Controller;
 import reply.ReplyDAO;
 
-public class DetailController{
+public class DetailController implements Controller{
 
-	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		BoardDAO bDao = new BoardDAO();
 		FileDAO fDao = new FileDAO();
 		ReplyDAO rDao = new ReplyDAO();

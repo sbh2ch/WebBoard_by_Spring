@@ -3,21 +3,18 @@ package controller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.BoardDAO;
 import file.FileDAO;
 import file.FileVO;
+import framework.Controller;
 import reply.ReplyDAO;
 
-@WebServlet("/board/delete")
-public class DeleteController extends HttpServlet {
+public class DeleteController implements Controller {
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		BoardDAO bDao = new BoardDAO();
 		FileDAO fDao = new FileDAO();
 		ReplyDAO rDao = new ReplyDAO();
@@ -30,7 +27,7 @@ public class DeleteController extends HttpServlet {
 		if (f != null)
 			fDao.delete(f, req.getServletContext());
 
-		resp.sendRedirect("/Test04/board/list.do");
+		return "redirect:list.do";
 	}
 
 }
