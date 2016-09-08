@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myReply">
+    <resultMap type="reply" id="replyMap">
+    	<result column="reply_no" property="replyNo"/>
+    	<result column="no" property="no"/>
+    	<result column="name" property="name"/>
+    	<result column="content" property="content"/>
+    	<result column="owner" property="owner"/>
+    	<result column="reg_date" property="regDate"/>
+    </resultMap>
+    
+    <select id="selectAll" resultMap="replyMap" parameterType="int">
+    	select * from r0812 where no = #{no} order by reply_no
+    </select>
+    
+    <update id="update" parameterType="reply">
+    	update r0812 set content = #{content}, reg_date = sysdate where reply_no = #{replyNo}
+    </update>
+    
+    <delete id="delete" parameterType="int">
+    	delete r0812 where reply_no = #{replyNo}
+    </delete>
+    
+    <insert id="insert" parameterType="reply">
+    	insert into r0812 values(s_r0812.nextval, #{no}, #{name}, #{content}, #{owner}, sysdate)
+    </insert>
+</mapper>

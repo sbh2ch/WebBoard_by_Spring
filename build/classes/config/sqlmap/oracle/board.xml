@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myBoard">
+    <resultMap type="board" id="boardMap">
+    	<result column="no" property="no"/>
+    	<result column="title" property="title"/>
+    	<result column="writer" property="writer"/>
+    	<result column="content" property="content"/>
+    	<result column="owner" property="owner"/>
+    	<result column="reg_date" property="regDate"/>
+    	<result column="reply_cnt" property="replyCnt"/>
+    </resultMap>
+    
+    <select id="selectAll" resultMap="boardMap">
+    	select * from b0812 order by no desc
+    </select>
+    
+    <select id="selectOne" resultMap="boardMap" parameterType="int">
+    	select * from b0812 where no = #{no}
+    </select>
+    
+    <insert id="insert" parameterType="board">
+    	<selectKey keyProperty="no" order="BEFORE" resultType="int">
+			select s_b0812.nextval from dual
+    	</selectKey>
+    	insert into b0812 values(#{no}, #{title}, #{writer}, #{content}, #{owner}, sysdate, 0)
+    </insert>
+    
+    <delete id="delete" parameterType="int">
+    	delete b0812 where no = #{no}
+    </delete>
+    
+    <update id="update" parameterType="board">
+    	update b0812 set title = #{title}, content = #{content}, reg_date = sysdate where no = #{no}
+    </update>
+</mapper>
