@@ -1,25 +1,15 @@
 package framework;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import controller.DeleteController;
-import controller.DetailController;
-import controller.ListController;
-import controller.ReplyDeleteController;
-import controller.ReplyUpdateController;
-import controller.ReplyWriteController;
-import controller.UpdateController;
-import controller.UpdateFormController;
-import controller.WriteController;
-import controller.WriteFormController;
-import login.Login;
-import login.Logout;
 
 /**
  * @author son
@@ -43,64 +33,37 @@ import login.Logout;
  *         이후 자동 파라미터 처리, 사용자 요청 작업 클래스를 검색하는 부분을 효율적으로 변경
  */
 public class DispatcherServlet extends HttpServlet {
+	private URLHandleMapping mappings = null;
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		mappings = new URLHandleMapping();
+	}
 
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String requestUri = req.getRequestURI().substring(req.getContextPath().length());
-		System.out.println(requestUri);
 		String view = null;
 		Controller controller = null;
 
-		switch (requestUri) {
-		case "/board/list.do":
-			controller = new ListController();
-			break;
-		case "/board/detail.do":
-			controller = new DetailController();
-			break;
-		case "/board/delete.do":
-			controller = new DeleteController();
-			break;
-		case "/board/updateForm.do":
-			controller = new UpdateFormController();
-			break;
-		case "/board/update.do":
-			controller = new UpdateController();
-			break;
-		case "/board/write.do":
-			controller = new WriteController();
-			break;
-		case "/board/writeForm.do":
-			controller = new WriteFormController();
-			break;
-		case "/reply/delete.do":
-			controller = new ReplyDeleteController();
-			break;
-		case "/reply/write.do":
-			controller = new ReplyWriteController();
-			break;
-		case "/reply/update.do":
-			controller = new ReplyUpdateController();
-			break;
-		case "/login/login.do":
-			controller = new Login();
-			break;
-		case "/login/logout.do":
-			controller = new Logout();
-			break;
-		}
+		controller = mappings.getController(requestUri);
 
 		if (controller == null)
 			throw new ServletException("요청한 URL이 없음.");
 
-		view = controller.execute(req, res);
-
+		ModelAndView mav = controller.execute(req, res);
+		view = mav.getView();
 		if (view.startsWith("redirect:")) {
 			res.sendRedirect(view.substring("redirect:".length()));
 		} else {
+			Map<String, Object> model = mav.getModel();
+			Set<String> keys = model.keySet();
+
+			for(String key : keys)
+				req.setAttribute(key, model.get(key));
+			
 			RequestDispatcher rd = req.getRequestDispatcher(view);
 			rd.forward(req, res);
 		}
-
 	}
 }
