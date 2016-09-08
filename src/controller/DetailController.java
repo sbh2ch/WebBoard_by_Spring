@@ -13,11 +13,9 @@ import board.BoardDAO;
 import file.FileDAO;
 import reply.ReplyDAO;
 
-@WebServlet("/board/detail")
-public class DetailController extends HttpServlet{
+public class DetailController{
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		BoardDAO bDao = new BoardDAO();
 		FileDAO fDao = new FileDAO();
 		ReplyDAO rDao = new ReplyDAO();
@@ -27,7 +25,6 @@ public class DetailController extends HttpServlet{
 		req.setAttribute("b", bDao.selectOne(no));
 		req.setAttribute("rList", rDao.selectAll(no));
 		
-		RequestDispatcher rd = req.getRequestDispatcher("/jsp/detail.jsp");
-		rd.forward(req, resp);
+		return "/jsp/detail.jsp";
 	}
 }

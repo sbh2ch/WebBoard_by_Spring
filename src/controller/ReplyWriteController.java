@@ -22,7 +22,7 @@ public class ReplyWriteController extends HttpServlet {
 		int no = Integer.parseInt(req.getParameter("no"));
 		rDao.insert(new ReplyVO(no, user.getName(), req.getParameter("content"), user.getEmail()));
 
-		resp.sendRedirect("/Test04/board/detail?no=" + no);
+		resp.sendRedirect("/Test04/board/detail.do?no=" + no);
 	}
 
 }

@@ -42,7 +42,7 @@
 			<c:if test="${b.owner == user.email}">
 				<a href="/Test04/board/updateForm?no=${b.no}">modify</a>&nbsp;<a href="/Test04/board/delete?no=${b.no}">delete</a>
 			</c:if>
-			<a href="/Test04/board/list">back</a>
+			<a href="/Test04/board/list.do">back</a>
 			<h3>reply</h3>
 				<form action="/Test04/reply/update" method="post" accept-charset="utf-8">
 					<table width="60%" border="1">

@@ -27,6 +27,6 @@ public class Login extends HttpServlet{
 			req.getSession().setAttribute("user", user);
 		}
 		
-		resp.sendRedirect("/Test04/board/list");
+		resp.sendRedirect("/Test04/board/list.do");
 	}
 }

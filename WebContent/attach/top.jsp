@@ -12,5 +12,5 @@
 			Welcome ${user.name}!&nbsp;<a href="#">Log out</a>
 	</c:otherwise>
 </c:choose>
-<a href="/Test04/board/list">Go to Board</a>
+<a href="/Test04/board/list.do">Go to Board</a>
 <hr>

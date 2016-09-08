@@ -48,6 +48,6 @@ public class WriteController extends HttpServlet {
 			fDao.insert(new FileVO(no, mRequest.getOriginalFileName("attachFile"), mRequest.getFilesystemName("attachFile"), filePath, (int) newFile.length()));
 		}
 
-		resp.sendRedirect("/Test04/board/detail?no=" + no);
+		resp.sendRedirect("/Test04/board/detail.do?no=" + no);
 	}
 }

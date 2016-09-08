@@ -20,7 +20,7 @@ public class ReplyDeleteController extends HttpServlet {
 		int replyNo = Integer.parseInt(req.getParameter("replyNo"));
 		rDao.delete(replyNo);
 
-		resp.sendRedirect("/Test04/board/detail?no=" + no);
+		resp.sendRedirect("/Test04/board/detail.do?no=" + no);
 	}
 
 }

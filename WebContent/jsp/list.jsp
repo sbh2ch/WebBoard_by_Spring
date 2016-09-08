@@ -37,7 +37,7 @@
 								<fmt:formatDate value="${b.regDate}" pattern="yyyy.MM.dd" var="regDate"/>
 								<tr>
 									<th>${b.no}</th>
-									<th><a href="/Test04/board/detail?no=${b.no}">${b.title}</a></th>
+									<th><a href="/Test04/board/detail.do?no=${b.no}">${b.title}</a></th>
 									<th>${b.writer}</th>
 									<th>${regDate}</th>
 								</tr>

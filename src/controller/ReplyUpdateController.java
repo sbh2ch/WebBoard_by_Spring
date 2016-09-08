@@ -23,7 +23,7 @@ public class ReplyUpdateController extends HttpServlet {
 		if(!content.equals(""))
 			rDao.update(new ReplyVO(replyNo, content));
 
-		resp.sendRedirect("/Test04/board/detail?no=" + no);
+		resp.sendRedirect("/Test04/board/detail.do?no=" + no);
 	}
 
 }

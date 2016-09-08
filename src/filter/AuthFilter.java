@@ -38,7 +38,7 @@ public class AuthFilter implements Filter {
 		if (chk)
 			chain.doFilter(req, res);
 		else
-			response.sendRedirect("/Test04/board/list");
+			response.sendRedirect("/Test04/board/list.do");
 	}
 
 	@Override

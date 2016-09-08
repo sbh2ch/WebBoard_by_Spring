@@ -30,7 +30,7 @@ public class DeleteController extends HttpServlet {
 		if (f != null)
 			fDao.delete(f, req.getServletContext());
 
-		resp.sendRedirect("/Test04/board/list");
+		resp.sendRedirect("/Test04/board/list.do");
 	}
 
 }

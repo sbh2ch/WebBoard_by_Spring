@@ -13,17 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import board.BoardDAO;
 import board.BoardVO;
 
-@WebServlet("/board/list")
-public class ListController extends HttpServlet{
-
-	@Override
-	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+public class ListController{
+	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		BoardDAO bDao = new BoardDAO();
 		
 		List<BoardVO> bList = bDao.selectAll();
 		req.setAttribute("bList", bList);
 		
-		RequestDispatcher rd = req.getRequestDispatcher("/jsp/list.jsp");
-		rd.forward(req, res);
+		return "/jsp/list.jsp";
 	}
 }

@@ -2,11 +2,14 @@ package framework;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import controller.DetailController;
+import controller.ListController;
 
 /**
  * @author son
@@ -33,16 +36,23 @@ public class DispatcherServlet extends HttpServlet {
 
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		ServletContext sc = req.getServletContext();
-		String contextPath = sc.getContextPath(); //현재 프로젝트 경로 반환
-		System.out.println("contextPath : " + contextPath);
-
-		contextPath = req.getContextPath(); //이거도 현재 프로젝트 경로 반환 차이점 
-		System.out.println("contextPath : " + contextPath);
+		String requestUri = req.getRequestURI().substring(req.getContextPath().length());
+		System.out.println(requestUri);
+		String view = null;
+		
+		switch (requestUri) {
+		case "/board/list.do":
+			ListController list = new ListController();
+			view = list.execute(req, res);
+			break;
+		case "/board/detail.do":
+			DetailController detail = new DetailController();
+			view = detail.execute(req, res);
+			break;
+		}
 		
 		
-		String requestUri = req.getRequestURI();
-		System.out.println("requestURI : " + requestUri); // 포트번호까지 제외한 나머지 경로
-		
+		RequestDispatcher rd = req.getRequestDispatcher(view);
+		rd.forward(req, res);
 	}
 }
