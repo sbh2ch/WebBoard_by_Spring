@@ -1,4 +1,4 @@
-# Spring 기반 게시판
+# Spring 기반 게시판 
 
 본 프로젝트는 Servlet & Jsp기반의 게시판을 직접 Spring framework를 구현해 게시판을 만드는 과정을 단계별로 구현한 프로젝트다.<br>
 기존의 Servlet & Jsp기반의 게시판은 다음과 같다.
