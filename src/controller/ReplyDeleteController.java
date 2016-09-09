@@ -3,6 +3,8 @@ package controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import board.service.BoardService;
 import board.service.BoardServiceImpl;
 import framework.Controller;
@@ -22,7 +24,7 @@ public class ReplyDeleteController implements Controller {
 		int replyNo = Integer.parseInt(req.getParameter("replyNo"));
 		service.replyDelete(replyNo);
 
-		return new ModelAndView("redirect:/Test04/board/detail.do?no=" + no);
+		return new ModelAndView("ajax:" + new Gson().toJson(service.listReply(no)));
 	}
 
 }

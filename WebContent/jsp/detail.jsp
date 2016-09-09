@@ -8,6 +8,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<style>
+#commentList {
+	width: 80%;
+	border: 1px solid black;
+}
+</style>
 </head>
 <body>
 	<div class="container">
@@ -42,52 +48,12 @@
 			</c:if>
 			<a href="/Test04/board/list.do">back</a>
 			<h3>reply</h3>
-			<div id="commentList">
-			</div>
+			<div id="commentList"></div>
 
-
-
-			<!-- 
-				<form action="/Test04/reply/update.do" method="post" accept-charset="utf-8">
-					<table width="60%" border="1">
-						<thead>
-							<tr>
-								<th>id</th>
-								<th>comment</th>
-								<th colspan="2">reg_date</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${empty rList}">
-									<tr>
-										<th colspan="4">no reply</th>
-									</tr>
-								</c:when>
-								<c:otherwise>
-									<c:forEach var="r" items="${rList}">
-										<fmt:formatDate value="${r.regDate}" pattern="yyyy.MM.dd HH:mm:ss" var="regDate"/>
-										<tr>
-											<th>${r.name}</th>
-											<td>${r.content}</td>
-											<th>${regDate}</th>
-											<c:if test="${r.owner == user.email}">
-												<th><input type="hidden" name="replyNo" value="${r.replyNo}"><input type="hidden" name="no" value="${b.no}"><input type="text" name="content"><input type="submit" value="mod" ><a href="/Test04/reply/delete.do?replyNo=${r.replyNo}&no=${b.no}">del</a></th>
-											</c:if>
-										</tr>
-									</c:forEach>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-				</form>
-			<form action="/Test04/reply/write.do" method="post" accept-charset="utf-8">
-				<input type="hidden" name="no" value="${b.no}">
+			<form id="crForm" accept-charset="utf-8">
 				<input type="text" name="content" required> <input type="submit" value="comment">
 			</form>
-			 -->
 		</div>
-
 		<div class="footer">
 			<%@ include file="/attach/bottom.jsp"%>
 		</div>
@@ -96,17 +62,70 @@
 		function commentList() {
 			$.ajax({
 				url : "/Test04/board/commentList.do",
-				data : { no : "${b.no}" }, // .java로 바뀔 때 해석이 된다.
+				data : {
+					no : "${b.no}"
+				}, // .java로 바뀔 때 해석이 된다.
 				dataType : "json"
 			}).done(makeCommentList);
 		}
 
 		function makeCommentList(result) {
-			console.log('test');
-			console.dir(result);
+			var html = "";
+			if (result.length == 0) {
+				html += "<div>댓글이 없음</div>";
+			} else {
+
+				for (var i = 0; i < result.length; i++) {
+					html += "<div id='comment"+result[i].replyNo+"'>";
+					html += "<span> " + result[i].name + " </span>";
+					html += "<span> " + result[i].content + " </span>";
+					var date = new Date(result[i].regDate);
+					var time = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+					html += "<span> " + time + " </span>";
+					html += "<span>";
+					html += "수정 <a href='#1' onclick='commentDelete(" + result[i].replyNo + ");'>삭제</a>";
+					html += "</span>";
+					html += "</div>";
+				}
+			}
+			$("#commentList").html(html);
 		};
-		
+
 		commentList(); // 상세 페이지 로딩시 댓글 목록 조회, ajax 호출
+
+		//댓글 등록
+		$("#crForm").submit(function() {
+			var f = document.querySelector("#crForm");
+			$.ajax({
+				type : "post",
+				url : "/Test04/reply/write.do",
+				data : {
+					no : "${b.no}",
+					content : f.content.value
+				},
+				dataType : "json"
+			}).done(function(result) {
+				makeCommentList(result);
+				f.content.value = "";
+			});
+
+			return false;
+		});
+
+		function commentDelete(commentNo) {
+			var f = document.querySelector("#crForm");
+			$.ajax({
+				type : "post",
+				url : "/Test04/reply/delete.do",
+				data : {
+					no : "${b.no}",
+					replyNo : commentNo
+				},
+				dataType : "json"
+			}).done(makeCommentList);
+
+			return false;
+		}
 	</script>
 </body>
 </html>

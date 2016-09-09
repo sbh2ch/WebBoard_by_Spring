@@ -51,13 +51,14 @@ public class DispatcherServlet extends HttpServlet {
 
 		if (controller == null)
 			throw new ServletException("요청한 URL이 없음.");
-
+		
 		ModelAndView mav = null;
 		try {
 			mav = controller.execute(req, res);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
+		
 		view = mav.getView();
 		if (view.startsWith("redirect:")) {
 			res.sendRedirect(view.substring("redirect:".length()));
@@ -71,9 +72,9 @@ public class DispatcherServlet extends HttpServlet {
 			Map<String, Object> model = mav.getModel();
 			Set<String> keys = model.keySet();
 
-			for (String key : keys)
+			for (String key : keys){
 				req.setAttribute(key, model.get(key));
-
+			}
 			RequestDispatcher rd = req.getRequestDispatcher(view);
 			rd.forward(req, res);
 		}
