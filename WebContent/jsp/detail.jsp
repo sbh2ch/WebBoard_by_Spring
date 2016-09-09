@@ -48,8 +48,16 @@
 			</c:if>
 			<a href="/Test04/board/list.do">back</a>
 			<h3>reply</h3>
-			<div id="commentList"></div>
 
+			<!-- 댓글 목록 표시 -->
+			<div id="commentList"></div>
+			<!-- 댓글 수정 폼 -->
+			<div id="commentUpdateDiv">
+				<input type="hidden" name="commentNo" />
+				<span>id</span>
+				<input name="content" type="text" />
+				<button>수정</button>
+			</div>
 			<form id="crForm" accept-charset="utf-8">
 				<input type="text" name="content" required> <input type="submit" value="comment">
 			</form>
@@ -83,7 +91,8 @@
 					var time = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 					html += "<span> " + time + " </span>";
 					html += "<span>";
-					html += "수정 <a href='#1' onclick='commentDelete(" + result[i].replyNo + ");'>삭제</a>";
+					html += "<a href='#1' onclick='commentUpdate(" + result[i].replyNo + ");'>수정</a>";
+					html += "<a href='#1' onclick='commentDelete(" + result[i].replyNo + ");'>삭제</a>";
 					html += "</span>";
 					html += "</div>";
 				}
@@ -108,7 +117,6 @@
 				makeCommentList(result);
 				f.content.value = "";
 			});
-
 			return false;
 		});
 
@@ -126,6 +134,39 @@
 
 			return false;
 		}
+		function commentUpdate(commentNo) {
+			//기존에 숨겨진 div를 화면에 보이게 한다.
+			$("#commentList > div[id^=comment]").show();
+			var $cDiv = $("#comment" + commentNo);
+			$("#commentUpdateDiv > span:eq(0)").html($cDiv.find("span:eq(0)").html());
+			$("#commentUpdateDiv > input:eq(0)").val(commentNo);
+			$("#commentUpdateDiv > input:eq(1)").val($cDiv.find("span:eq(1)").html());
+			$cDiv.after($("#commentUpdateDiv").show());
+			$cDiv.hide();
+		}
+
+		$("#commentUpdateDiv > button").click(function() {
+			var $parent = $(this).parent();
+			var content = $parent.find("input:eq(1)").val();
+			var commentNo = $parent.find("input:eq(0)").val();
+			$.ajax({
+				type : "post",
+				url : "/Test04/reply/update.do",
+				data : {
+					replyNo : commentNo,
+					content : content
+				}
+			}).done(function() {
+				$parent.find("span").html("");
+				$parent.find("input").html("");
+				$("#comment" + commentNo + " > span:eq(1)").html(content);
+				$("#comment" + commentNo).show();
+				$("#commentList").after($parent.hide());
+			});
+
+			return false;
+		});
+		$("#commentUpdateDiv").hide();
 	</script>
 </body>
 </html>

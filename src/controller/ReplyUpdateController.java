@@ -19,13 +19,12 @@ public class ReplyUpdateController implements Controller {
 	@Override
 	public ModelAndView execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		int replyNo = Integer.parseInt(req.getParameter("replyNo"));
-		int no = Integer.parseInt(req.getParameter("no"));
 		String content = req.getParameter("content");
 
 		if (!content.equals(""))
 			service.updateReply(new ReplyVO(replyNo, content));
 
-		return new ModelAndView("redirect:/Test04/board/detail.do?no=" + no);
+		return new ModelAndView("ajax:{}");
 	}
 
 }
