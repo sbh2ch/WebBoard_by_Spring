@@ -1,32 +1,31 @@
 package controller;
 
-import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import board.BoardDAO;
-import file.FileDAO;
+import board.service.BoardService;
+import board.service.BoardServiceImpl;
 import framework.Controller;
 import framework.ModelAndView;
-import reply.ReplyDAO;
 
-public class DetailController implements Controller{
+public class DetailController implements Controller {
+	private BoardService service;
 
-	public ModelAndView execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		ModelAndView mv = new ModelAndView();
-		BoardDAO bDao = new BoardDAO();
-		FileDAO fDao = new FileDAO();
-		ReplyDAO rDao = new ReplyDAO();
-		
+	public DetailController() {
+		service = new BoardServiceImpl();
+	}
+
+	public ModelAndView execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		ModelAndView mv = new ModelAndView("/jsp/detail.jsp");
 		int no = Integer.parseInt(req.getParameter("no"));
-		
-		mv.setView("/jsp/detail.jsp");
-		mv.addAttribute("f", fDao.select(no));
-		mv.addAttribute("b", bDao.selectOne(no));
-		mv.addAttribute("rList", rDao.selectAll(no));
-		
+
+		Map<String, Object> models = service.detail(no);
+		for (String key : models.keySet())
+			mv.addAttribute(key, models.get(key));
+
 		return mv;
 	}
 }

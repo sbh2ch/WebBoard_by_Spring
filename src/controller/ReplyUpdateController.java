@@ -1,29 +1,31 @@
 package controller;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.service.BoardService;
+import board.service.BoardServiceImpl;
 import framework.Controller;
-import reply.ReplyDAO;
+import framework.ModelAndView;
 import reply.ReplyVO;
 
-public class ReplyUpdateController  implements Controller {
+public class ReplyUpdateController implements Controller {
+	private BoardService service;
+
+	public ReplyUpdateController() {
+		service = new BoardServiceImpl();
+	}
 
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ReplyDAO rDao = new ReplyDAO();
+	public ModelAndView execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		int replyNo = Integer.parseInt(req.getParameter("replyNo"));
 		int no = Integer.parseInt(req.getParameter("no"));
 		String content = req.getParameter("content");
-		if(!content.equals(""))
-			rDao.update(new ReplyVO(replyNo, content));
 
-		return "redirect:/Test04/board/detail.do?no=" + no;
+		if (!content.equals(""))
+			service.updateReply(new ReplyVO(replyNo, content));
+
+		return new ModelAndView("redirect:/Test04/board/detail.do?no=" + no);
 	}
 
 }

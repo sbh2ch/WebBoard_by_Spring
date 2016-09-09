@@ -82,6 +82,11 @@ public class BoardVO {
 		return replyCnt;
 	}
 
+	@Override
+	public String toString() {
+		return "BoardVO [no=" + no + ", title=" + title + ", writer=" + writer + ", content=" + content + ", owner=" + owner + ", regDate=" + regDate + ", replyCnt=" + replyCnt + "]";
+	}
+
 	public void setReplyCnt(int replyCnt) {
 		this.replyCnt = replyCnt;
 	}

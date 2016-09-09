@@ -1,6 +1,7 @@
 package framework;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 import java.util.Set;
 
@@ -51,17 +52,28 @@ public class DispatcherServlet extends HttpServlet {
 		if (controller == null)
 			throw new ServletException("요청한 URL이 없음.");
 
-		ModelAndView mav = controller.execute(req, res);
+		ModelAndView mav = null;
+		try {
+			mav = controller.execute(req, res);
+		} catch (Exception e) {
+			throw new ServletException(e);
+		}
 		view = mav.getView();
 		if (view.startsWith("redirect:")) {
 			res.sendRedirect(view.substring("redirect:".length()));
+		} else if (view.startsWith("ajax:")) {
+			res.setContentType("text/json; charset=utf-8");
+			PrintWriter out = res.getWriter();
+
+			out.println(view.substring("ajax:".length()));
+			out.close();
 		} else {
 			Map<String, Object> model = mav.getModel();
 			Set<String> keys = model.keySet();
 
-			for(String key : keys)
+			for (String key : keys)
 				req.setAttribute(key, model.get(key));
-			
+
 			RequestDispatcher rd = req.getRequestDispatcher(view);
 			rd.forward(req, res);
 		}

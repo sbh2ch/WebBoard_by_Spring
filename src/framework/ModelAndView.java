@@ -14,6 +14,15 @@ public class ModelAndView {
 	private String view;
 	private Map<String, Object> model = new HashMap<>();
 
+	public ModelAndView() {
+		super();
+	}
+
+	public ModelAndView(String view) {
+		super();
+		this.view = view;
+	}
+
 	public String getView() {
 		return view;
 	}

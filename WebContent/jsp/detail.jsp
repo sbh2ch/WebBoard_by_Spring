@@ -1,19 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 	<div class="container">
 		<div class="header">
-			<%@ include file="/attach/top.jsp" %>
+			<%@ include file="/attach/top.jsp"%>
 		</div>
-		
+
 		<div class="content">
 			<h1>detail</h1>
 			<table width="60%" border="1">
@@ -27,15 +28,12 @@
 				</tr>
 				<tr>
 					<th>content</th>
-					<td><textarea readonly cols="40" rows="20">${b.content}</textarea> </td>
+					<td><textarea readonly cols="40" rows="20">${b.content}</textarea></td>
 				</tr>
 				<c:if test="${not empty f}">
 					<tr>
 						<th>attach</th>
-						<td>
-							<a href="/Test04/down?path=${f.filePath}&oriName=${f.oriName}&realName=${f.realName}">download</a><br>
-							<img alt="" src="/Test04/down?path=${f.filePath}&realName=${f.realName}&draw=Y">
-						</td>
+						<td><a href="/Test04/down?path=${f.filePath}&oriName=${f.oriName}&realName=${f.realName}">download</a><br> <img alt="" src="/Test04/down?path=${f.filePath}&realName=${f.realName}&draw=Y"></td>
 					</tr>
 				</c:if>
 			</table>
@@ -44,6 +42,12 @@
 			</c:if>
 			<a href="/Test04/board/list.do">back</a>
 			<h3>reply</h3>
+			<div id="commentList">
+			</div>
+
+
+
+			<!-- 
 				<form action="/Test04/reply/update.do" method="post" accept-charset="utf-8">
 					<table width="60%" border="1">
 						<thead>
@@ -81,11 +85,28 @@
 				<input type="hidden" name="no" value="${b.no}">
 				<input type="text" name="content" required> <input type="submit" value="comment">
 			</form>
+			 -->
 		</div>
-		
+
 		<div class="footer">
-			<%@ include file="/attach/bottom.jsp" %>
+			<%@ include file="/attach/bottom.jsp"%>
 		</div>
 	</div>
+	<script>
+		function commentList() {
+			$.ajax({
+				url : "/Test04/board/commentList.do",
+				data : { no : "${b.no}" }, // .java로 바뀔 때 해석이 된다.
+				dataType : "json"
+			}).done(makeCommentList);
+		}
+
+		function makeCommentList(result) {
+			console.log('test');
+			console.dir(result);
+		};
+		
+		commentList(); // 상세 페이지 로딩시 댓글 목록 조회, ajax 호출
+	</script>
 </body>
 </html>

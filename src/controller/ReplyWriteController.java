@@ -1,28 +1,30 @@
 package controller;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.service.BoardService;
+import board.service.BoardServiceImpl;
 import framework.Controller;
+import framework.ModelAndView;
 import member.MemberVO;
-import reply.ReplyDAO;
 import reply.ReplyVO;
 
 public class ReplyWriteController implements Controller {
+	private BoardService service;
+
+	public ReplyWriteController() {
+		service = new BoardServiceImpl();
+	}
 
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public ModelAndView execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		MemberVO user = (MemberVO) req.getSession().getAttribute("user");
-		ReplyDAO rDao = new ReplyDAO();
 		int no = Integer.parseInt(req.getParameter("no"));
-		rDao.insert(new ReplyVO(no, user.getName(), req.getParameter("content"), user.getEmail()));
+		
+		service.replyWrite(new ReplyVO(no, user.getName(), req.getParameter("content"), user.getEmail()));
 
-		return "redirect:/Test04/board/detail.do?no=" + no;
+		return new ModelAndView("redirect:/Test04/board/detail.do?no=" + no);
 	}
 
 }

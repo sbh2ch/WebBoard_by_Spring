@@ -1,34 +1,27 @@
 package controller;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import board.BoardDAO;
-import file.FileDAO;
-import file.FileVO;
+import board.service.BoardService;
+import board.service.BoardServiceImpl;
 import framework.Controller;
-import reply.ReplyDAO;
+import framework.ModelAndView;
 
 public class DeleteController implements Controller {
-	
+	private BoardService service;
+
+	public DeleteController() {
+		service = new BoardServiceImpl();
+	}
+
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		BoardDAO bDao = new BoardDAO();
-		FileDAO fDao = new FileDAO();
-		ReplyDAO rDao = new ReplyDAO();
+	public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		int no = Integer.parseInt(req.getParameter("no"));
 
-		bDao.delete(no);
-		rDao.delete(no);
+		service.deleteBoard(no, req);
 
-		FileVO f = fDao.select(no);
-		if (f != null)
-			fDao.delete(f, req.getServletContext());
-
-		return "redirect:list.do";
+		return new ModelAndView("redirect:list.do");
 	}
 
 }

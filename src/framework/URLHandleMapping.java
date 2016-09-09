@@ -3,6 +3,7 @@ package framework;
 import java.util.HashMap;
 import java.util.Map;
 
+import controller.CommentListController;
 import controller.DeleteController;
 import controller.DetailController;
 import controller.ListController;
@@ -33,6 +34,7 @@ public class URLHandleMapping {
 		mappings.put("/reply/update.do", new ReplyUpdateController());
 		mappings.put("/login/login.do", new Login());
 		mappings.put("/login/logout.do", new Logout());
+		mappings.put("/board/commentList.do", new CommentListController());
 	}
 
 	public Controller getController(String requestUri) {

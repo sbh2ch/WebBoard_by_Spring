@@ -3,24 +3,30 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.BoardDAO;
 import board.BoardVO;
+import board.service.BoardService;
+import board.service.BoardServiceImpl;
 import framework.Controller;
+import framework.ModelAndView;
 
-public class ListController implements Controller{
-	public String execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		BoardDAO bDao = new BoardDAO();
+public class ListController implements Controller {
+	private BoardService service;
 
-		List<BoardVO> bList = bDao.selectAll();
-		req.setAttribute("bList", bList);
+	public ListController() {
+		service = new BoardServiceImpl();
+	}
 
-		return "/jsp/list.jsp";
+	public ModelAndView execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		ModelAndView mv = new ModelAndView("/jsp/list.jsp");
+
+		List<BoardVO> bList = service.list();
+		mv.addAttribute("bList", bList);
+
+		return mv;
 	}
 }

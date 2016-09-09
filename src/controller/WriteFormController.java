@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import framework.Controller;
+import framework.ModelAndView;
 
 public class WriteFormController implements Controller {
 
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		return "redirect:/Test04/jsp/writeForm.jsp";
+	public ModelAndView execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		return new ModelAndView("redirect:/Test04/jsp/writeForm.jsp");
 	}
 
 }
