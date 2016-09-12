@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import controller.DetailController;
+import kr.co.mlec.controller.DetailController;
 
 /**
  * @author son

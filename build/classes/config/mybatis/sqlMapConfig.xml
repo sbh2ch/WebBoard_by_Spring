@@ -8,10 +8,10 @@
 
 	<!-- SQL의 결과를 담을 VO 객체들의 별칭을 설정하여 사용의 편의를 도모 -->
 	<typeAliases>
-		<typeAlias alias="member" type="member.MemberVO" />
-		<typeAlias alias="reply" type="reply.ReplyVO" />
-		<typeAlias alias="file" type="file.FileVO" />
-		<typeAlias alias="board" type="board.BoardVO" />
+		<typeAlias alias="member" type="kr.co.mlec.member.MemberVO" />
+		<typeAlias alias="reply" type="kr.co.mlec.reply.ReplyVO" />
+		<typeAlias alias="file" type="kr.co.mlec.file.FileVO" />
+		<typeAlias alias="board" type="kr.co.mlec.board.BoardVO" />
 	</typeAliases>
 
 	<environments default="development">

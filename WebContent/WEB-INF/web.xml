@@ -4,24 +4,25 @@
 
 	<filter>
 		<filter-name>encoding</filter-name>
-		<filter-class>filter.EncodingFilter</filter-class>
+		<filter-class>kr.co.mlec.filter.EncodingFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>encoding</filter-name>
 		<url-pattern>*</url-pattern>
 	</filter-mapping>
 
-	<!-- 잠시 디버깅위해 막음 <filter> <filter-name>auth</filter-name> <filter-class>filter.AuthFilter</filter-class> <init-param> <param-name>pages</param-name> <param-value>/board/list.do;/login/login;/jsp/list.jsp;/jsp/login.jsp;/attach/top.jsp;</param-value> </init-param> </filter> 
-		<filter-mapping> <filter-name>auth</filter-name> <url-pattern>*</url-pattern> </filter-mapping> -->
+	<!-- 잠시 디버깅위해 막음 <filter> <filter-name>auth</filter-name> <filter-class>kr.co.mlec.filter.AuthFilter</filter-class> <init-param> <param-name>pages</param-name> <param-value>/board/list.do;/login/login;/jsp/list.jsp;/jsp/login.jsp;/attach/top.jsp;</param-value> </init-param> 
+		</filter> <filter-mapping> <filter-name>auth</filter-name> <url-pattern>*</url-pattern> </filter-mapping> -->
 
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>framework.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>controllers</param-name>
-			<param-value> /board/list.do=controller.ListController; /board/detail.do=controller.DetailController; /board/delete.do=controller.DeleteController; 
-		/board/updateForm.do=controller.UpdateFormController; /board/update.do=controller.UpdateController; /board/write.do=controller.WriteController; /board/writeForm.do=controller.WriteFormController; /reply/write.do=controller.ReplyWriteController; /reply/delete.do=controller.ReplyDeleteController; 
-		/reply/update.do=controller.ReplyUpdateController; /login/login.do=login.Login; /login/logout.do=login.Logout; /board/commentList.do=controller.CommentListController </param-value>
+			<param-value>
+		/board/list.do=kr.co.mlec.controller.ListController; /board/detail.do=kr.co.mlec.controller.DetailController; /board/delete.do=kr.co.mlec.controller.DeleteController; 
+		/board/updateForm.do=kr.co.mlec.controller.UpdateFormController; /board/update.do=kr.co.mlec.controller.UpdateController; /board/write.do=kr.co.mlec.controller.WriteController; /board/writeForm.do=kr.co.mlec.controller.WriteFormController; /reply/write.do=kr.co.mlec.controller.ReplyWriteController; /reply/delete.do=kr.co.mlec.controller.ReplyDeleteController; 
+		/reply/update.do=kr.co.mlec.controller.ReplyUpdateController; /login/login.do=kr.co.mlec.login.Login; /login/logout.do=kr.co.mlec.login.Logout; /board/commentList.do=kr.co.mlec.controller.CommentListController </param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
