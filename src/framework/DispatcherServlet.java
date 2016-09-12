@@ -2,6 +2,8 @@ package framework;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,6 +13,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import controller.DetailController;
 
 /**
  * @author son
@@ -38,7 +42,7 @@ public class DispatcherServlet extends HttpServlet {
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		mappings = new URLHandleMapping();
+		mappings = new URLHandleMapping(config.getInitParameter("controllers"));
 	}
 
 	@Override
@@ -46,19 +50,18 @@ public class DispatcherServlet extends HttpServlet {
 		String requestUri = req.getRequestURI().substring(req.getContextPath().length());
 		String view = null;
 		Controller controller = null;
-
 		controller = mappings.getController(requestUri);
 
 		if (controller == null)
 			throw new ServletException("요청한 URL이 없음.");
-		
+
 		ModelAndView mav = null;
 		try {
 			mav = controller.execute(req, res);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
-		
+
 		view = mav.getView();
 		if (view.startsWith("redirect:")) {
 			res.sendRedirect(view.substring("redirect:".length()));
@@ -72,7 +75,7 @@ public class DispatcherServlet extends HttpServlet {
 			Map<String, Object> model = mav.getModel();
 			Set<String> keys = model.keySet();
 
-			for (String key : keys){
+			for (String key : keys) {
 				req.setAttribute(key, model.get(key));
 			}
 			RequestDispatcher rd = req.getRequestDispatcher(view);

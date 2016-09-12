@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -17,6 +16,7 @@ import board.BoardDAO;
 import board.BoardVO;
 import file.FileDAO;
 import file.FileVO;
+import framework.WebUtil;
 import member.MemberDAO;
 import member.MemberVO;
 import reply.ReplyDAO;
@@ -68,29 +68,11 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int updateBoard(String path, HttpServletRequest req) throws Exception {
-		String filePath = new SimpleDateFormat("\\yyyy\\MM\\dd\\").format(new Date());
 
-		File dir = new File(path + filePath);
+		int no = Integer.parseInt(req.getParameter("no"));
+		BoardVO board = (BoardVO) WebUtil.getParamToVO(BoardVO.class, req);
 
-		if (!dir.exists())
-			dir.mkdirs();
-
-		MultipartRequest mRequest = new MultipartRequest(req, path + filePath, 1024 * 1024 * 50, "utf-8", new DefaultFileRenamePolicy());
-
-		String title = mRequest.getParameter("title");
-		String content = mRequest.getParameter("content");
-		int no = Integer.parseInt(mRequest.getParameter("no"));
-
-		bDao.update(new BoardVO(no, title, content));
-
-		File newFile = mRequest.getFile("attachFile");
-		if (newFile != null) {
-			FileVO delFile = fDao.select(no);
-			if (delFile != null)
-				fDao.delete(fDao.select(no), req.getServletContext());
-
-			fDao.insert(new FileVO(no, mRequest.getOriginalFileName("attachFile"), mRequest.getFilesystemName("attachFile"), filePath, (int) newFile.length()));
-		}
+		bDao.update(board);
 
 		return no;
 	}

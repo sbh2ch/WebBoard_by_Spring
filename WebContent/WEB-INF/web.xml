@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
 	<display-name>Test04</display-name>
-	
+
 	<filter>
 		<filter-name>encoding</filter-name>
 		<filter-class>filter.EncodingFilter</filter-class>
@@ -10,34 +10,26 @@
 		<filter-name>encoding</filter-name>
 		<url-pattern>*</url-pattern>
 	</filter-mapping>
-	
-	<!-- 잠시 디버깅위해 막음
-	<filter>
-		<filter-name>auth</filter-name>
-		<filter-class>filter.AuthFilter</filter-class>
-		<init-param>
-			<param-name>pages</param-name>
-			<param-value>/board/list.do;/login/login;/jsp/list.jsp;/jsp/login.jsp;/attach/top.jsp;</param-value>
-		</init-param>
-	</filter>
 
-	<filter-mapping>
-		<filter-name>auth</filter-name>
-		<url-pattern>*</url-pattern>
-	</filter-mapping>
-	 -->
-	
-	
+	<!-- 잠시 디버깅위해 막음 <filter> <filter-name>auth</filter-name> <filter-class>filter.AuthFilter</filter-class> <init-param> <param-name>pages</param-name> <param-value>/board/list.do;/login/login;/jsp/list.jsp;/jsp/login.jsp;/attach/top.jsp;</param-value> </init-param> </filter> 
+		<filter-mapping> <filter-name>auth</filter-name> <url-pattern>*</url-pattern> </filter-mapping> -->
+
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>framework.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>controllers</param-name>
+			<param-value> /board/list.do=controller.ListController; /board/detail.do=controller.DetailController; /board/delete.do=controller.DeleteController; 
+		/board/updateForm.do=controller.UpdateFormController; /board/update.do=controller.UpdateController; /board/write.do=controller.WriteController; /board/writeForm.do=controller.WriteFormController; /reply/write.do=controller.ReplyWriteController; /reply/delete.do=controller.ReplyDeleteController; 
+		/reply/update.do=controller.ReplyUpdateController; /login/login.do=login.Login; /login/logout.do=login.Logout; /board/commentList.do=controller.CommentListController </param-value>
+		</init-param>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-	
+
+
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
