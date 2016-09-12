@@ -20,9 +20,9 @@
 		<init-param>
 			<param-name>controllers</param-name>
 			<param-value>
-		/board/list.do=kr.co.mlec.controller.ListController; /board/detail.do=kr.co.mlec.controller.DetailController; /board/delete.do=kr.co.mlec.controller.DeleteController; 
-		/board/updateForm.do=kr.co.mlec.controller.UpdateFormController; /board/update.do=kr.co.mlec.controller.UpdateController; /board/write.do=kr.co.mlec.controller.WriteController; /board/writeForm.do=kr.co.mlec.controller.WriteFormController; /reply/write.do=kr.co.mlec.controller.ReplyWriteController; /reply/delete.do=kr.co.mlec.controller.ReplyDeleteController; 
-		/reply/update.do=kr.co.mlec.controller.ReplyUpdateController; /login/login.do=kr.co.mlec.login.Login; /login/logout.do=kr.co.mlec.login.Logout; /board/commentList.do=kr.co.mlec.controller.CommentListController </param-value>
+				kr.co.mlec.controller.BoardController;
+				kr.co.mlec.login.controller.LoginController
+			</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
