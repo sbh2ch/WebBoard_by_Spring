@@ -20,11 +20,9 @@ public class ReplyDeleteController implements Controller {
 
 	@Override
 	public ModelAndView execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		int no = Integer.parseInt(req.getParameter("no"));
-		int replyNo = Integer.parseInt(req.getParameter("replyNo"));
-		service.replyDelete(replyNo);
+		service.replyDelete(Integer.parseInt(req.getParameter("replyNo")));
 
-		return new ModelAndView("ajax:" + new Gson().toJson(service.listReply(no)));
+		return new ModelAndView("ajax:" + new Gson().toJson(service.listReply(Integer.parseInt(req.getParameter("no")))));
 	}
 
 }

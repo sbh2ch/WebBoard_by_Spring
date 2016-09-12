@@ -20,9 +20,8 @@ public class DetailController implements Controller {
 
 	public ModelAndView execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		ModelAndView mv = new ModelAndView("/jsp/detail.jsp");
-		int no = Integer.parseInt(req.getParameter("no"));
 
-		Map<String, Object> models = service.detail(no);
+		Map<String, Object> models = service.detail(Integer.parseInt(req.getParameter("no")));
 		for (String key : models.keySet())
 			mv.addAttribute(key, models.get(key));
 

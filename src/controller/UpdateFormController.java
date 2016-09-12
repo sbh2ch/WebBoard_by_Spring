@@ -19,9 +19,7 @@ public class UpdateFormController implements Controller {
 	@Override
 	public ModelAndView execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		ModelAndView mv = new ModelAndView("/jsp/updateForm.jsp");
-		int no = Integer.parseInt(req.getParameter("no"));
-		
-		mv.addAttribute("b", service.updateForm(no));
+		mv.addAttribute("b", service.updateForm(Integer.parseInt(req.getParameter("no"))));
 
 		return mv;
 	}

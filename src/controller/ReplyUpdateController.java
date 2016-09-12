@@ -7,6 +7,7 @@ import board.service.BoardService;
 import board.service.BoardServiceImpl;
 import framework.Controller;
 import framework.ModelAndView;
+import framework.WebUtil;
 import reply.ReplyVO;
 
 public class ReplyUpdateController implements Controller {
@@ -18,11 +19,7 @@ public class ReplyUpdateController implements Controller {
 
 	@Override
 	public ModelAndView execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		int replyNo = Integer.parseInt(req.getParameter("replyNo"));
-		String content = req.getParameter("content");
-
-		if (!content.equals(""))
-			service.updateReply(new ReplyVO(replyNo, content));
+		service.updateReply((ReplyVO) WebUtil.getParamToVO(ReplyVO.class, req));
 
 		return new ModelAndView("ajax:{}");
 	}

@@ -1,26 +1,29 @@
 package framework;
 
 import java.lang.reflect.Method;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class WebUtil {
 	public static Object getParamToVO(Class<?> clz, HttpServletRequest req) throws Exception {
 		Object obj = clz.newInstance();
-		Method[] methods = clz.getMethods();
+		Method[] methods = clz.getDeclaredMethods();
 
 		for (String key : req.getParameterMap().keySet()) {
 			for (Method m : methods) {
-				if (m.getName().startsWith("set") && m.getName().substring(3).equalsIgnoreCase(key)) {
-					if (m.getParameterTypes()[0].getName().equals("int"))
+				if (m.getName().startsWith("set") && m.getName().substring("set".length()).equalsIgnoreCase(key)) {
+					System.out.println(m.getName()+" : "+req.getParameter(key));
+					switch (m.getParameterTypes()[0].getName()) {
+					case "int":
 						m.invoke(obj, Integer.parseInt(req.getParameter(key)));
-					else
+						break;
+					default:
 						m.invoke(obj, req.getParameter(key));
+						break;
+					}
 				}
 			}
 		}
-
 		return obj;
 	}
 }

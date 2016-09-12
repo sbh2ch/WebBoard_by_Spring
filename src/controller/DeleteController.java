@@ -17,9 +17,7 @@ public class DeleteController implements Controller {
 
 	@Override
 	public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-		int no = Integer.parseInt(req.getParameter("no"));
-
-		service.deleteBoard(no, req);
+		service.deleteBoard(Integer.parseInt(req.getParameter("no")), req);
 
 		return new ModelAndView("redirect:list.do");
 	}

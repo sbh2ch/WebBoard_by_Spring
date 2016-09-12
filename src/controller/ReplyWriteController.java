@@ -9,6 +9,7 @@ import board.service.BoardService;
 import board.service.BoardServiceImpl;
 import framework.Controller;
 import framework.ModelAndView;
+import framework.WebUtil;
 import member.MemberVO;
 import reply.ReplyVO;
 
@@ -24,8 +25,10 @@ public class ReplyWriteController implements Controller {
 		MemberVO user = (MemberVO) req.getSession().getAttribute("user");
 		
 		int no = Integer.parseInt(req.getParameter("no"));
-		
-		service.replyWrite(new ReplyVO(no, user.getName(), req.getParameter("content"), user.getEmail()));
+		ReplyVO r = (ReplyVO) WebUtil.getParamToVO(ReplyVO.class, req);
+		r.setName(user.getName());
+		r.setOwner(user.getEmail());
+		service.replyWrite(r);
 
 		return new ModelAndView("ajax:" + new Gson().toJson(service.listReply(no)));
 	}
