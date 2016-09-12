@@ -37,7 +37,7 @@ public class BoardVO {
 	public void setNo(int no) {
 		this.no = no;
 	}
-
+	
 	public String getTitle() {
 		return title;
 	}
