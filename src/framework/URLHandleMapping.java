@@ -53,7 +53,6 @@ public class URLHandleMapping {
 	 */
 
 	public CtrlAndMethod getCtrlAndMethod(String requestUri) {
-		System.out.println(requestUri);
 		return mappings.get(requestUri);
 	}
 }

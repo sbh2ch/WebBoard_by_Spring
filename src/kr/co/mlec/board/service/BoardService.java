@@ -42,7 +42,7 @@ public interface BoardService {
 	 * @throws Exception
 	 *             게시글 업데이트
 	 */
-	public int updateBoard(String path, HttpServletRequest req) throws Exception;
+	public void updateBoard(BoardVO board) throws Exception;
 
 	public int writeBoard(String path, MemberVO user, HttpServletRequest req) throws Exception;
 
@@ -55,4 +55,5 @@ public interface BoardService {
 	public BoardVO updateForm(int no) throws Exception;
 	
 	public List<ReplyVO> listReply(int no) throws Exception;
+
 }

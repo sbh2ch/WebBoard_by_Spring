@@ -22,7 +22,7 @@ public class LoginController {
 	}
 
 	@RequestMapping("/login/login.do")
-	public ModelAndView login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public ModelAndView login(HttpServletRequest req) throws ServletException, IOException {
 		MemberDAO mDao = new MemberDAO();
 
 		String email = req.getParameter("email");
@@ -37,7 +37,7 @@ public class LoginController {
 	}
 
 	@RequestMapping("/login/logout.do")
-	public ModelAndView logout(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	public ModelAndView logout(HttpServletRequest req) throws ServletException, IOException {
 		req.getSession().invalidate();
 
 		return new ModelAndView("redirect:/Test04/board/list.do");

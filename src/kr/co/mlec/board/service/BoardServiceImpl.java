@@ -12,12 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-import framework.WebUtil;
+import framework.RequestParam;
 import kr.co.mlec.board.BoardDAO;
 import kr.co.mlec.board.BoardVO;
 import kr.co.mlec.file.FileDAO;
 import kr.co.mlec.file.FileVO;
-import kr.co.mlec.member.MemberDAO;
 import kr.co.mlec.member.MemberVO;
 import kr.co.mlec.reply.ReplyDAO;
 import kr.co.mlec.reply.ReplyVO;
@@ -65,14 +64,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int updateBoard(String path, HttpServletRequest req) throws Exception {
-
-		int no = Integer.parseInt(req.getParameter("no"));
-		BoardVO board = (BoardVO) WebUtil.getParamToVO(BoardVO.class, req);
-
+	public void updateBoard(BoardVO board) throws Exception {
 		bDao.update(board);
-
-		return no;
 	}
 
 	public int writeBoard(String path, MemberVO user, HttpServletRequest req) throws Exception {
@@ -117,5 +110,6 @@ public class BoardServiceImpl implements BoardService {
 	public BoardVO updateForm(int no) throws Exception {
 		return bDao.selectOne(no);
 	}
+
 
 }

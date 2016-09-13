@@ -2,6 +2,8 @@ package framework;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,7 +54,14 @@ public class DispatcherServlet extends HttpServlet {
 
 		ModelAndView mav = null;
 		try {
-			mav = (ModelAndView) cam.getMethod().invoke(cam.getTarget(), req, res);
+			Object target = cam.getTarget();
+			Method method = cam.getMethod();
+			PreParameterProcess ppp = new PreParameterProcess();
+			//파라미터에 입력될 값들을 담은 배열
+			Object[] param = ppp.process(method, req);
+			
+			
+			mav = (ModelAndView) method.invoke(target, param);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
