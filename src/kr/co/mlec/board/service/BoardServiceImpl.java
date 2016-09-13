@@ -26,13 +26,11 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDAO bDao;
 	private ReplyDAO rDao;
 	private FileDAO fDao;
-	private MemberDAO mDao;
 
 	public BoardServiceImpl() {
 		bDao = new BoardDAO();
 		rDao = new ReplyDAO();
 		fDao = new FileDAO();
-		mDao = new MemberDAO();
 	}
 
 	@Override

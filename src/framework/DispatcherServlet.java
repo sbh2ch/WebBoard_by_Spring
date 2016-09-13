@@ -2,8 +2,6 @@ package framework;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 /**
  * @author son
@@ -49,7 +46,7 @@ public class DispatcherServlet extends HttpServlet {
 		String requestUri = req.getRequestURI().substring(req.getContextPath().length());
 		String view = null;
 		CtrlAndMethod cam = mappings.getCtrlAndMethod(requestUri);
-		
+
 		if (cam == null)
 			throw new ServletException("요청한 URL이 없음.");
 
@@ -59,7 +56,7 @@ public class DispatcherServlet extends HttpServlet {
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
-		
+
 		view = mav.getView();
 		if (view.startsWith("redirect:")) {
 			res.sendRedirect(view.substring("redirect:".length()));
