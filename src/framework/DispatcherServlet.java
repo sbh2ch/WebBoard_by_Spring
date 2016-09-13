@@ -40,33 +40,48 @@ public class DispatcherServlet extends HttpServlet {
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		mappings = new URLHandleMapping(config.getInitParameter("controllers"));
+		String scanPackage = config.getInitParameter("scan-package");
+		mappings = new URLHandleMapping(scanPackage);
 	}
 
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String requestUri = req.getRequestURI().substring(req.getContextPath().length());
+		ModelAndView mav = null;
 		String view = null;
 		CtrlAndMethod cam = mappings.getCtrlAndMethod(requestUri);
 
 		if (cam == null)
 			throw new ServletException("요청한 URL이 없음.");
 
-		ModelAndView mav = null;
 		try {
 			Object target = cam.getTarget();
 			Method method = cam.getMethod();
 			PreParameterProcess ppp = new PreParameterProcess();
 			//파라미터에 입력될 값들을 담은 배열
 			Object[] param = ppp.process(method, req);
-			
-			
-			mav = (ModelAndView) method.invoke(target, param);
+
+			Class<?> rType = method.getReturnType();
+			String rName = rType.getSimpleName();
+			switch (rName) {
+			case "ModelAndView":
+				mav = (ModelAndView) method.invoke(target, param);
+				view = mav.getView();
+				break;
+			case "String":
+				view = (String) method.invoke(target, param);
+				break;
+			case "void":
+				method.invoke(target, param);
+				RequestMapping rm = method.getAnnotation(RequestMapping.class);
+				view = rm.value().replace(".do", ".jsp");
+				break;
+			}
+
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
 
-		view = mav.getView();
 		if (view.startsWith("redirect:")) {
 			res.sendRedirect(view.substring("redirect:".length()));
 		} else if (view.startsWith("ajax:")) {
@@ -76,11 +91,14 @@ public class DispatcherServlet extends HttpServlet {
 			out.println(view.substring("ajax:".length()));
 			out.close();
 		} else {
-			Map<String, Object> model = mav.getModel();
-			Set<String> keys = model.keySet();
 
-			for (String key : keys) {
-				req.setAttribute(key, model.get(key));
+			if (mav != null) {
+				Map<String, Object> model = mav.getModel();
+				Set<String> keys = model.keySet();
+
+				for (String key : keys) {
+					req.setAttribute(key, model.get(key));
+				}
 			}
 			RequestDispatcher rd = req.getRequestDispatcher(view);
 			rd.forward(req, res);

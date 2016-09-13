@@ -18,11 +18,8 @@
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>framework.DispatcherServlet</servlet-class>
 		<init-param>
-			<param-name>controllers</param-name>
-			<param-value>
-				kr.co.mlec.controller.BoardController;
-				kr.co.mlec.login.controller.LoginController
-			</param-value>
+			<param-name>scan-package</param-name>
+			<param-value>kr.co.mlec</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>

@@ -12,7 +12,6 @@ public class WebUtil {
 		for (String key : req.getParameterMap().keySet()) {
 			for (Method m : methods) {
 				if (m.getName().startsWith("set") && m.getName().substring("set".length()).equalsIgnoreCase(key)) {
-					System.out.println(m.getName()+" : "+req.getParameter(key));
 					switch (m.getParameterTypes()[0].getName()) {
 					case "int":
 						m.invoke(obj, Integer.parseInt(req.getParameter(key)));
